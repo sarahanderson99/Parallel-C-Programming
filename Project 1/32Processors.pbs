@@ -1,0 +1,8 @@
+#!/bin/bash
+#PBS -N example
+#PBS -l select=2:ncpus=16:mpiprocs=16:mem=2gb,walltime=00:04:00
+#PBS -k oe
+module purge
+module add openmpi/1.10.3-gcc/5.4.0-cuda9_2
+cd $PBS_O_WORKDIR
+mpiexec ./parallel-add-list
