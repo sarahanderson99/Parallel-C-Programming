@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N Floyd
+#PBS -l select=2:ncpus=12:mpiprocs=16:mem=2gb
+#PBS -l walltime=00:10:00
+#PBS -j oe
+source /etc/profile.d/modules.sh
+module purge
+module add openmpi/1.10.3-gcc/5.4.0-cuda9_2
+NCORES=`qstat -xf $PBS_JOBID|grep List.ncpus|sed 's/^.\{26\}//'`
+cd $PBS_O_WORKDIR
+mpirun -n $NCORES --mca mpi_cuda_support 0 ./floyd-parallel default-make-graph-file.dat default-make-graph-file.seq
